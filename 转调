@@ -1,0 +1,196 @@
+"""
+读取初步输出的文件，统计F大小和弦以及F#大小和弦的数量
+"""
+count_chord = 0
+count_F = 0
+count_F_up = 0
+f = open("F://b站py//文件名.txt", "r", encoding="UTF-8")
+out = list()
+for line in f:  # 分成每一行
+    line = line.strip()  # 去除开头和结尾的空格与换行符
+    words = line.split(" ")  # 分成每一个单词
+    for word in words:
+        out.append(word)
+        if words != "-":
+            count_chord += 1
+            if word == "F" or word == "Fm":
+                count_F += 1
+            if word == "F#" or word == "F#m":
+                count_F_up += 1
+f.close()
+print(f"F、Fm的数量：{count_F},F#、F#m的数量：{count_F_up}")
+
+"""
+以0.1为出现频次的临界，并且比较数量F和F#的数量，确定转哪个调
+比较转调前后F与F#总量的变化，如果变多了，就不建议转调
+反之就进行转调操作，输出一个新的.txt文档，且控制换行
+"""
+if count_F_up / count_chord > 0.1 or count_F / count_chord > 0.1:
+    sneak = input("选择是否使用变调夹（是或否）：")
+    HuanHang = 0
+    new = open("F://b站py//变调结果.txt", "w", encoding="UTF-8")
+    if count_F / count_chord > 0.1 and count_F > count_F_up:
+        count_Be = 0
+        for x in out:
+            if x == "C" or x =="Cm":
+                count_Be += 1
+            elif x == "Db" or x == "Dbm":
+                count_Be += 1
+        if count_Be >= count_F + count_F_up:
+            new.write("变调后F、Fm、F#、F#m增多，建议不做变调换掉处理")
+        else:
+            if sneak == "是":
+                new.write("请移动变调夹5个品格")
+                new.write("\n")
+            for x in out:
+                # 换行
+                if HuanHang == 15:
+                    HuanHang = 0
+                    new.write("\n")
+                else:
+                    HuanHang += 1
+
+                if x == "-":
+                    new.write("-\t")
+                elif x == "C":
+                    new.write("F\t")
+                elif x == "Cm":
+                    new.write("Fm\t")
+
+                elif x == "Db":
+                    new.write("F#\t")
+                elif x == "Dbm":
+                    new.write("F#m\t")
+
+                elif x == "D":
+                    new.write("G\t")
+                elif x == "Dm":
+                    new.write("Gm\t")
+
+                elif x == "Eb":
+                    new.write("Ab\t")
+                elif x == "Ebm":
+                    new.write("Abm\t")
+
+                elif x == "E":
+                    new.write("A\t")
+                elif x == "Em":
+                    new.write("Am\t")
+
+                elif x == "F":
+                    new.write("Bb\t")
+                elif x == "Fm":
+                    new.write("Bbm\t")
+
+                elif x == "F#":
+                    new.write("B\t")
+                elif x == "F#m":
+                    new.write("Bm\t")
+
+                elif x == "G":
+                    new.write("C\t")
+                elif x == "Gm":
+                    new.write("Cm\t")
+
+                elif x == "Ab":
+                    new.write("Db\t")
+                elif x == "Abm":
+                    new.write("Dbm\t")
+
+                elif x == "A":
+                    new.write("D\t")
+                elif x == "Am":
+                    new.write("Dm\t")
+
+                elif x == "Bb":
+                    new.write("Eb\t")
+                elif x == "Bbm":
+                    new.write("Ebm\t")
+
+                elif x == "B":
+                    new.write("E\t")
+                elif x == "Bm":
+                    new.write("Em\t")
+
+    if count_F_up / count_chord > 0.1 and count_F < count_F_up:
+        count_Be = 0
+        for x in out:
+            if x == "C" or x == "Cm":
+                count_Be += 1
+            elif x == "B" or x == "Bm":
+                count_Be += 1
+        if count_Be >= count_F + count_F_up:
+            new.write("变调后F、Fm、F#、F#m增多，建议不做变调换掉处理")
+        else:
+            if sneak == "是":
+                new.write("请移动变调夹6个品格\n")
+                new.write("\n")
+            for x in out:
+                # 换行
+                if HuanHang == 15:
+                    HuanHang = 0
+                    new.write("\n")
+                else:
+                    HuanHang += 1
+                if x == "-":
+                    new.write("-\t")
+                elif x == "C":
+                    new.write("F#\t")
+                elif x == "Cm":
+                    new.write("F#m\t")
+
+                elif x == "Db":
+                    new.write("G#\t")
+                elif x == "Dbm":
+                    new.write("G#m\t")
+
+                elif x == "D":
+                    new.write("Ab\t")
+                elif x == "Dm":
+                    new.write("Abm\t")
+
+                elif x == "Eb":
+                    new.write("A\t")
+                elif x == "Ebm":
+                    new.write("Am\t")
+
+                elif x == "E":
+                    new.write("Bb\t")
+                elif x == "Em":
+                    new.write("Bbm\t")
+
+                elif x == "F":
+                    new.write("B\t")
+                elif x == "Fm":
+                    new.write("Bm\t")
+
+                elif x == "F#":
+                    new.write("C\t")
+                elif x == "F#m":
+                    new.write("Cm\t")
+
+                elif x == "G":
+                    new.write("Db\t")
+                elif x == "Gm":
+                    new.write("Dbm\t")
+
+                elif x == "Ab":
+                    new.write("D\t")
+                elif x == "Abm":
+                    new.write("Dm\t")
+
+                elif x == "A":
+                    new.write("Eb\t")
+                elif x == "Am":
+                    new.write("Ebm\t")
+
+                elif x == "Bb":
+                    new.write("E\t")
+                elif x == "Bbm":
+                    new.write("Em\t")
+
+                elif x == "B":
+                    new.write("F\t")
+                elif x == "Bm":
+                    new.write("Fm\t")
+    new.flush()
